@@ -1,48 +1,485 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import './index.css';
 import './App.css';
+import logo from './assets/images/logo.svg';
+import img1 from './assets/images/placeholder1.jpg';
+import img2 from './assets/images/placeholder2.jpg';
+import img3 from './assets/images/placeholder3.jpg';
+import img4 from './assets/images/placeholder4.jpg';
+
+// Utilities
+const usePrefersDark = () => {
+  const [prefersDark, setPrefersDark] = useState(
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => setPrefersDark(e.matches);
+    if (media.addEventListener) {
+      media.addEventListener('change', handler);
+    } else {
+      media.addListener(handler);
+    }
+    return () => {
+      if (media.removeEventListener) media.removeEventListener('change', handler);
+      else media.removeListener(handler);
+    };
+  }, []);
+  return prefersDark;
+};
+
+const setFocusOn = (id) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.setAttribute('tabindex', '-1');
+    el.focus({ preventScroll: true });
+  }
+};
 
 // PUBLIC_INTERFACE
-function App() {
-  const [theme, setTheme] = useState('light');
+function ThemeToggle({ theme, onToggle }) {
+  /** Accessible theme toggle button */
+  return (
+    <button
+      className="btn btn-secondary"
+      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+      onClick={onToggle}
+      title="Toggle theme"
+    >
+      {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+    </button>
+  );
+}
 
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+// PUBLIC_INTERFACE
+function Navbar({ onNav }) {
+  /** Sticky navbar with anchor links and hamburger menu */
+  const [open, setOpen] = useState(false);
+  const links = [
+    { href: '#hero', label: 'Home' },
+    { href: '#about', label: 'About' },
+    { href: '#services', label: 'Services' },
+    { href: '#instructors', label: 'Instructors' },
+    { href: '#gallery', label: 'Gallery' },
+    { href: '#testimonials', label: 'Testimonials' },
+    { href: '#pricing', label: 'Pricing' },
+    { href: '#contact', label: 'Contact' },
+  ];
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setOpen(false);
+    onNav(href);
+  };
+  return (
+    <nav className="navbar" role="navigation" aria-label="Main navigation">
+      <div className="container nav-inner">
+        <a className="brand" href="#hero" onClick={(e)=>handleNavClick(e,'#hero')}>
+          <img src={logo} alt="Damsara Driving School logo" width="36" height="36" />
+          Damsara Driving School
+        </a>
+        <div className="nav-links" aria-label="Primary">
+          {links.map(l => (
+            <a key={l.href} href={l.href} onClick={(e)=>handleNavClick(e,l.href)}>
+              {l.label}
+            </a>
+          ))}
+        </div>
+        <div className="nav-actions">
+          <a className="btn btn-secondary" href="tel:+94112223344" aria-label="Call Damsara Driving School">
+            📞 Call
+          </a>
+          <button
+            className="hamburger"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={()=>setOpen(o=>!o)}
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+      <div className={`mobile-menu ${open ? 'open' : ''}`}>
+        <div className="container" role="menu" aria-label="Mobile navigation">
+          {links.map(l => (
+            <a key={l.href} href={l.href} role="menuitem" onClick={(e)=>handleNavClick(e,l.href)}>
+              {l.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+}
 
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+// PUBLIC_INTERFACE
+function Section({ id, title, subtitle, children }) {
+  /** Reusable section wrapper with heading and subheading */
+  return (
+    <section id={id} className="section" aria-labelledby={`${id}-title`}>
+      <div className="container">
+        <div className="section-header">
+          {title && <h2 className="section-title" id={`${id}-title`}>{title}</h2>}
+          {subtitle && <p className="section-subtitle">{subtitle}</p>}
+        </div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+// PUBLIC_INTERFACE
+function Card({ children, as: Tag = 'div', className = '' }) {
+  /** Simple Card primitive */
+  return <Tag className={`card ${className}`}>{children}</Tag>;
+}
+
+// Icons (inline SVG)
+const IconCar = ({ size=20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M5 11l1-3a3 3 0 012.83-2h6.34A3 3 0 0118 8l1 3v6a1 1 0 01-1 1h-1a2 2 0 01-4 0H11a2 2 0 01-4 0H6a1 1 0 01-1-1v-6zm2 1h10l-.62-1.86A1 1 0 0015.44 9H8.56a1 1 0 00-.94.64L7 12zm1 4a1 1 0 100-2 1 1 0 000 2zm10 0a1 1 0 100-2 1 1 0 000 2z"/>
+  </svg>
+);
+const IconBadge = ({ size=18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17 3H7a2 2 0 00-2 2v14l7-3 7 3V5a2 2 0 00-2-2z"/></svg>
+);
+
+// Sections
+function Hero() {
+  return (
+    <div className="hero" id="hero">
+      <a className="skip-link" href="#main" onClick={(e)=>{ /* leave anchor default */ }}>Skip to content</a>
+      <div className="container section">
+        <div className="hero-grid">
+          <div>
+            <span className="badge"><IconBadge/> Trusted by 1,500+ learners</span>
+            <h1 className="hero-title">Learn to Drive with Confidence</h1>
+            <p className="hero-text">
+              Damsara Driving School offers patient, professional instruction to help you become a safe, confident driver.
+              Modern vehicles, flexible scheduling, and friendly instructors.
+            </p>
+            <div className="hero-cta">
+              <a className="btn btn-primary" href="#contact">Book a Lesson</a>
+              <a className="btn btn-secondary" href="tel:+94112223344">📞 Call Now</a>
+            </div>
+          </div>
+          <div className="hero-media" aria-hidden="true">
+            <img src={img1} alt="" className="tall" loading="lazy" />
+            <img src={img2} alt="" className="wide" loading="lazy" />
+            <img src={img3} alt="" className="wide" loading="lazy" />
+            <img src={img4} alt="" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <Section id="about" title="About Us" subtitle="Committed to road safety and professional instruction.">
+      <div className="grid-3">
+        <Card>
+          <h3>Experienced Instructors</h3>
+          <p>Our certified instructors are patient, supportive, and experienced in helping new drivers succeed.</p>
+        </Card>
+        <Card>
+          <h3>Modern Fleet</h3>
+          <p>Train in comfortable, well-maintained cars equipped with the latest safety features.</p>
+        </Card>
+        <Card>
+          <h3>Flexible Scheduling</h3>
+          <p>We offer morning, evening, and weekend sessions to fit your busy lifestyle.</p>
+        </Card>
+      </div>
+    </Section>
+  );
+}
+
+function Services() {
+  const items = [
+    { title: 'Beginner Lessons', desc: 'Start from the basics with personalized instruction.', icon: <IconCar/> },
+    { title: 'Test Preparation', desc: 'Sharpen your skills and ace the driving test.', icon: <IconCar/> },
+    { title: 'Refresher Courses', desc: 'Regain confidence with targeted practice.', icon: <IconCar/> },
+  ];
+  return (
+    <Section id="services" title="Services" subtitle="Programs tailored for every experience level.">
+      <div className="grid-3">
+        {items.map(s => (
+          <Card key={s.title}>
+            <div className="badge" aria-hidden="true">{s.icon} Popular</div>
+            <h3 style={{marginTop: 12}}>{s.title}</h3>
+            <p>{s.desc}</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function Instructors() {
+  const instructors = [
+    { name: 'Nimal Perera', role: 'Senior Instructor', img: img2 },
+    { name: 'Sajini Fernando', role: 'Instructor', img: img3 },
+    { name: 'Kasun Jay', role: 'Instructor', img: img4 },
+  ];
+  return (
+    <Section id="instructors" title="Our Instructors" subtitle="Friendly, certified professionals.">
+      <div className="grid-3">
+        {instructors.map((i)=>(
+          <Card key={i.name}>
+            <img src={i.img} alt={`${i.name}, ${i.role}`} loading="lazy" style={{borderRadius:'12px', marginBottom:12}}/>
+            <h3>{i.name}</h3>
+            <p className="section-subtitle" style={{margin: 0}}>{i.role}</p>
+          </Card>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function Gallery() {
+  const images = [img1,img2,img3,img4,img1,img2];
+  return (
+    <Section id="gallery" title="Gallery" subtitle="A peek into our sessions and vehicles.">
+      <div className="grid-3">
+        {images.map((src, idx)=>(
+          <Card key={idx} className="card-media">
+            <img src={src} alt={`Gallery item ${idx+1}`} loading="lazy" style={{borderRadius:'12px'}}/>
+          </Card>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function Testimonials() {
+  const [index, setIndex] = useState(0);
+  const testimonials = useMemo(()=>[
+    { name: 'Dinithi', text: 'Passed my test on the first try! The instructors were amazing.' },
+    { name: 'Ravindu', text: 'Flexible scheduling and very patient teaching. Highly recommend.' },
+    { name: 'Shalini', text: 'Professional and friendly. I became a confident driver quickly.' },
+  ],[]);
+  const next = () => setIndex((i)=> (i+1) % testimonials.length);
+  const prev = () => setIndex((i)=> (i-1+testimonials.length) % testimonials.length);
+
+  return (
+    <Section id="testimonials" title="Testimonials" subtitle="What our students say.">
+      <div aria-live="polite" aria-atomic="true">
+        <div className="testimonial">
+          <p style={{fontSize:18, marginTop:0}}>&ldquo;{testimonials[index].text}&rdquo;</p>
+          <p className="section-subtitle" style={{marginBottom:0}}>— {testimonials[index].name}</p>
+        </div>
+        <div style={{display:'flex', gap:12, justifyContent:'center', marginTop:16}}>
+          <button className="btn btn-secondary" onClick={prev} aria-label="Previous testimonial">Prev</button>
+          <button className="btn btn-secondary" onClick={next} aria-label="Next testimonial">Next</button>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+function Pricing() {
+  const tiers = [
+    { name: 'Starter', price: 'LKR 8,500', features: ['3 Lessons', 'Test Guidance', 'Flexible Time'], badge: 'Popular' },
+    { name: 'Standard', price: 'LKR 15,900', features: ['6 Lessons', 'Mock Test', 'Priority Booking'], badge: 'Best Value' },
+    { name: 'Premium', price: 'LKR 29,900', features: ['12 Lessons', 'Mock + Pickup', 'Test Day Support'], badge: 'Comprehensive' },
+  ];
+  return (
+    <Section id="pricing" title="Pricing" subtitle="Clear plans for every learner.">
+      <div className="grid-3">
+        {tiers.map(t=>(
+          <Card key={t.name}>
+            <span className="tier-badge">{t.badge}</span>
+            <h3 style={{margin:'10px 0 6px'}}>{t.name}</h3>
+            <p style={{fontSize:24, fontWeight:800, margin:'0 0 10px'}}>{t.price}</p>
+            <ul style={{paddingLeft:18, marginTop:0}}>
+              {t.features.map(f=><li key={f} style={{marginBottom:6}}>{f}</li>)}
+            </ul>
+            <a href="#contact" className="btn btn-primary" aria-label={`Select ${t.name} plan`}>
+              Choose Plan
+            </a>
+          </Card>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function Contact() {
+  const [form, setForm] = useState({ name:'', email:'', phone:'', message:'' });
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState('');
+
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Please enter your name.';
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Enter a valid email.';
+    if (!/^[0-9+\-\s]{7,}$/.test(form.phone)) e.phone = 'Enter a valid phone.';
+    if (form.message.trim().length < 10) e.message = 'Message should be at least 10 characters.';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const onSubmit = (ev) => {
+    ev.preventDefault();
+    if (validate()) {
+      setSuccess('Thank you! Your message has been received. We will contact you soon.');
+      setForm({ name:'', email:'', phone:'', message:'' });
+      setErrors({});
+    } else {
+      setSuccess('');
+    }
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Section id="contact" title="Contact Us" subtitle="Book a lesson or ask a question.">
+      <div className="grid-3">
+        <Card className="">
+          <form onSubmit={onSubmit} noValidate aria-describedby="contact-help">
+            <p id="contact-help" className="section-subtitle">All fields are required.</p>
+            <div className="field">
+              <label htmlFor="name">Name</label>
+              <input id="name" name="name" type="text" value={form.name}
+                     onChange={(e)=>setForm({...form, name:e.target.value})} required aria-invalid={!!errors.name}/>
+              {errors.name && <span className="field-error">{errors.name}</span>}
+            </div>
+            <div className="field">
+              <label htmlFor="email">Email</label>
+              <input id="email" name="email" type="email" value={form.email}
+                     onChange={(e)=>setForm({...form, email:e.target.value})} required aria-invalid={!!errors.email}/>
+              {errors.email && <span className="field-error">{errors.email}</span>}
+            </div>
+            <div className="field">
+              <label htmlFor="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" value={form.phone}
+                     onChange={(e)=>setForm({...form, phone:e.target.value})} required aria-invalid={!!errors.phone}/>
+              {errors.phone && <span className="field-error">{errors.phone}</span>}
+            </div>
+            <div className="field">
+              <label htmlFor="message">Message</label>
+              <textarea id="message" name="message" rows="4" value={form.message}
+                        onChange={(e)=>setForm({...form, message:e.target.value})} required aria-invalid={!!errors.message}/>
+              {errors.message && <span className="field-error">{errors.message}</span>}
+            </div>
+            <button type="submit" className="btn btn-primary">Send Message</button>
+            {success && <p role="status" style={{marginTop:12}}>{success}</p>}
+          </form>
+        </Card>
+        <Card>
+          <h3>Contact Details</h3>
+          <p><strong>Phone:</strong> <a href="tel:+94112223344">+94 11 222 3344</a></p>
+          <p><strong>Email:</strong> <a href="mailto:info@damsaradrive.com">info@damsaradrive.com</a></p>
+          <p><strong>Address:</strong> 123 Main Street, Colombo, Sri Lanka</p>
+          <p><strong>Hours:</strong> Mon–Sat 8:00–18:00</p>
+          <div style={{display:'flex', gap:10, marginTop:8}}>
+            <a className="btn btn-secondary" href="#hero">Facebook</a>
+            <a className="btn btn-secondary" href="#hero">Instagram</a>
+          </div>
+        </Card>
+        <Card>
+          <h3>Why Choose Us</h3>
+          <ul>
+            <li>Friendly, patient instructors</li>
+            <li>Flexible times to fit you</li>
+            <li>Modern cars with safety features</li>
+            <li>Great pass rates</li>
+          </ul>
+        </Card>
+      </div>
+    </Section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer" role="contentinfo">
+      <div className="container footer-grid">
+        <div>
+          <div className="brand">
+            <img src={logo} alt="" aria-hidden="true" />
+            <strong>Damsara Driving School</strong>
+          </div>
+          <p className="section-subtitle">Helping learners become confident, safe drivers.</p>
+          <small>© {new Date().getFullYear()} Damsara Driving School. All rights reserved.</small>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <p><a href="tel:+94112223344">+94 11 222 3344</a></p>
+          <p><a href="mailto:info@damsaradrive.com">info@damsaradrive.com</a></p>
+        </div>
+        <div>
+          <h4>Visit</h4>
+          <p>123 Main Street</p>
+          <p>Colombo, Sri Lanka</p>
+        </div>
+        <div>
+          <h4>Hours</h4>
+          <p>Mon–Sat: 8:00–18:00</p>
+          <p>Sun: Closed</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// PUBLIC_INTERFACE
+function App() {
+  /** Main single-page app for Damsara Driving School */
+  const prefersDark = usePrefersDark();
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+    return prefersDark ? 'dark' : 'light';
+  });
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    document.body.style.background = getComputedStyle(document.documentElement).getPropertyValue('--color-bg');
+    document.title = 'Damsara Driving School | Learn to Drive with Confidence';
+  }, [theme]);
+
+  useEffect(() => {
+    // sync with system change when user hasn't set explicit preference
+    const saved = localStorage.getItem('theme');
+    if (saved !== 'light' && saved !== 'dark') {
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+  }, [prefersDark]);
+
+  const onToggleTheme = () => {
+    setTheme((t)=> t === 'dark' ? 'light' : 'dark');
+  };
+
+  const handleNav = (href) => {
+    const id = href.replace('#','');
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(()=> setFocusOn(id), 400);
+    }
+  };
+
+  return (
+    <>
+      <a href="#main" className="skip-link">Skip to content</a>
+      <Navbar onNav={handleNav} />
+      <Hero />
+      <main id="main" ref={mainRef} tabIndex="-1">
+        <About />
+        <Services />
+        <Instructors />
+        <Gallery />
+        <Testimonials />
+        <Pricing />
+        <Contact />
+      </main>
+      <div className="container" style={{display:'flex', justifyContent:'flex-end', padding:'16px 0'}}>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      </div>
+      <Footer />
+    </>
   );
 }
 

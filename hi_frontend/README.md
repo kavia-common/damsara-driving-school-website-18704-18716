@@ -1,82 +1,44 @@
-# Lightweight React Template for KAVIA
+# Damsara Driving School – Frontend
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+This is a lightweight, elegant, single-page React site for Damsara Driving School.
 
-## Features
+## Structure
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- src/App.js – Main SPA with anchor-based navigation (no external router)
+- src/index.css – Theme variables, layout, and component styles
+- src/App.css – Minimal overrides
+- src/assets/images – Logo and placeholder images
 
-## Getting Started
+## Theme
 
-In the project directory, you can run:
+Custom Theme (Elegant):
+- primary: #c3373e
+- secondary: #F59E0B
+- background: #FDF2F8
+- surface: #FFFFFF
+- text: #374151
 
-### `npm start`
+Theming via CSS variables in index.css. The site respects `prefers-color-scheme` and includes a Theme Toggle that persists to localStorage.
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Accessibility
 
-### `npm test`
+- Semantic landmarks: nav, main, footer
+- Skip-to-content link
+- Keyboard-accessible navigation and controls
+- Focus management on smooth scroll target
+- Testimonials area uses aria-live
 
-Launches the test runner in interactive watch mode.
+## Performance
 
-### `npm run build`
+- Mobile-first responsive layout
+- Lazy-loaded images
+- Inline SVG icons
+- No external router
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Development
 
-## Customization
+- npm start – start dev server on port 3000
+- npm test – run tests
+- npm run build – production build
 
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+No environment variables required for local development.
