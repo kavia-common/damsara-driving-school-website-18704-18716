@@ -152,14 +152,14 @@ function Hero() {
         <div className="hero-grid">
           <div>
             <span className="badge"><IconBadge/> Trusted by 1,500+ learners</span>
-            <h1 className="hero-title">Learn to Drive with Confidence</h1>
+            <h1 className="hero-title">Master the Road with a Premium Driving Experience</h1>
             <p className="hero-text">
-              Damsara Driving School offers patient, professional instruction to help you become a safe, confident driver.
-              Modern vehicles, flexible scheduling, and friendly instructors.
+              Patient, certified instructors. Modern, safety‑equipped vehicles. Flexible times that fit your life.
+              Learn safely, feel confident, and pass with ease.
             </p>
             <div className="hero-cta">
-              <a className="btn btn-primary" href="#contact">Book a Lesson</a>
-              <a className="btn btn-secondary" href="tel:+94112223344">📞 Call Now</a>
+              <a className="btn btn-primary" href="#contact" aria-label="Book a lesson">Book a Lesson</a>
+              <a className="btn btn-secondary" href="tel:+94112223344" aria-label="Call now">📞 Call Now</a>
             </div>
           </div>
           <div className="hero-media" aria-hidden="true">
@@ -176,19 +176,19 @@ function Hero() {
 
 function About() {
   return (
-    <Section id="about" title="About Us" subtitle="Committed to road safety and professional instruction.">
+    <Section id="about" title="About Us" subtitle="Elegant instruction. Outstanding pass rates. A focus on safety.">
       <div className="grid-3">
         <Card>
-          <h3>Experienced Instructors</h3>
-          <p>Our certified instructors are patient, supportive, and experienced in helping new drivers succeed.</p>
+          <h3>Certified & Patient</h3>
+          <p>Our licensed instructors are calm, supportive, and skilled at guiding beginners and refresher learners alike.</p>
         </Card>
         <Card>
-          <h3>Modern Fleet</h3>
-          <p>Train in comfortable, well-maintained cars equipped with the latest safety features.</p>
+          <h3>Modern, Safe Fleet</h3>
+          <p>Train in comfortable vehicles with the latest safety features, kept meticulously maintained for your peace of mind.</p>
         </Card>
         <Card>
-          <h3>Flexible Scheduling</h3>
-          <p>We offer morning, evening, and weekend sessions to fit your busy lifestyle.</p>
+          <h3>Flexible to Your Schedule</h3>
+          <p>Morning, evening, and weekend sessions—designed around your routine so learning is effortless.</p>
         </Card>
       </div>
     </Section>
@@ -197,12 +197,15 @@ function About() {
 
 function Services() {
   const items = [
-    { title: 'Beginner Lessons', desc: 'Start from the basics with personalized instruction.', icon: <IconCar/> },
-    { title: 'Test Preparation', desc: 'Sharpen your skills and ace the driving test.', icon: <IconCar/> },
-    { title: 'Refresher Courses', desc: 'Regain confidence with targeted practice.', icon: <IconCar/> },
+    { title: 'Learner Permit Support', desc: 'Guidance to obtain your learner’s—paperwork and preparation made simple.', icon: <IconCar/> },
+    { title: 'Manual & Automatic Lessons', desc: 'Personalised lessons in your preferred transmission to build safe habits.', icon: <IconCar/> },
+    { title: 'Mock Test & Test Prep', desc: 'Realistic practice and tips so you arrive confident on test day.', icon: <IconCar/> },
+    { title: 'Fast‑Track Packages', desc: 'Accelerated plans to get you ready sooner—without compromising safety.', icon: <IconCar/> },
+    { title: 'Refresher Courses', desc: 'Targeted sessions to rebuild confidence and polish your skills.', icon: <IconCar/> },
+    { title: 'Pickup & Drop‑off', desc: 'Convenient pickups for lessons and support on test day.', icon: <IconCar/> },
   ];
   return (
-    <Section id="services" title="Services" subtitle="Programs tailored for every experience level.">
+    <Section id="services" title="Services" subtitle="Tailored programs for every stage of your driving journey.">
       <div className="grid-3">
         {items.map(s => (
           <Card key={s.title}>
@@ -223,13 +226,13 @@ function Instructors() {
     { name: 'Kasun Jay', role: 'Instructor', img: img4 },
   ];
   return (
-    <Section id="instructors" title="Our Instructors" subtitle="Friendly, certified professionals.">
+    <Section id="instructors" title="Our Instructors" subtitle="Certified, friendly, and dedicated to your success.">
       <div className="grid-3">
         {instructors.map((i)=>(
           <Card key={i.name}>
             <img src={i.img} alt={`${i.name}, ${i.role}`} loading="lazy" style={{borderRadius:'12px', marginBottom:12}}/>
             <h3>{i.name}</h3>
-            <p className="section-subtitle" style={{margin: 0}}>{i.role}</p>
+            <p className="section-subtitle" style={{margin: 0}}>{i.role} • Patient, safety‑first coaching</p>
           </Card>
         ))}
       </div>
@@ -240,7 +243,7 @@ function Instructors() {
 function Gallery() {
   const images = [img1,img2,img3,img4,img1,img2];
   return (
-    <Section id="gallery" title="Gallery" subtitle="A peek into our sessions and vehicles.">
+    <Section id="gallery" title="Gallery" subtitle="Training moments, pristine vehicles, and happy graduates.">
       <div className="grid-3">
         {images.map((src, idx)=>(
           <Card key={idx} className="card-media">
@@ -255,15 +258,15 @@ function Gallery() {
 function Testimonials() {
   const [index, setIndex] = useState(0);
   const testimonials = useMemo(()=>[
-    { name: 'Dinithi', text: 'Passed my test on the first try! The instructors were amazing.' },
-    { name: 'Ravindu', text: 'Flexible scheduling and very patient teaching. Highly recommend.' },
-    { name: 'Shalini', text: 'Professional and friendly. I became a confident driver quickly.' },
+    { name: 'D. Perera', text: 'I passed on my first attempt. Calm, clear feedback every lesson—highly recommended.' },
+    { name: 'R. Silva', text: 'Flexible times and a modern car made learning stress‑free. I felt confident on test day.' },
+    { name: 'S. Fernando', text: 'Professional, patient, and safety‑focused. Exactly what I needed to finally start driving.' },
   ],[]);
   const next = () => setIndex((i)=> (i+1) % testimonials.length);
   const prev = () => setIndex((i)=> (i-1+testimonials.length) % testimonials.length);
 
   return (
-    <Section id="testimonials" title="Testimonials" subtitle="What our students say.">
+    <Section id="testimonials" title="Testimonials" subtitle="Real stories from recent learners.">
       <div aria-live="polite" aria-atomic="true">
         <div className="testimonial">
           <p style={{fontSize:18, marginTop:0}}>&ldquo;{testimonials[index].text}&rdquo;</p>
@@ -280,12 +283,12 @@ function Testimonials() {
 
 function Pricing() {
   const tiers = [
-    { name: 'Starter', price: 'LKR 8,500', features: ['3 Lessons', 'Test Guidance', 'Flexible Time'], badge: 'Popular' },
-    { name: 'Standard', price: 'LKR 15,900', features: ['6 Lessons', 'Mock Test', 'Priority Booking'], badge: 'Best Value' },
-    { name: 'Premium', price: 'LKR 29,900', features: ['12 Lessons', 'Mock + Pickup', 'Test Day Support'], badge: 'Comprehensive' },
+    { name: 'Starter', price: 'LKR 8,500', features: ['3 Lessons', 'Essential test guidance', 'Flexible timings'], badge: 'Popular' },
+    { name: 'Standard', price: 'LKR 15,900', features: ['6 Lessons', 'Mock test session', 'Priority booking'], badge: 'Best Value' },
+    { name: 'Premium', price: 'LKR 29,900', features: ['12 Lessons', 'Mock + pickup/drop‑off', 'Test‑day support'], badge: 'Comprehensive' },
   ];
   return (
-    <Section id="pricing" title="Pricing" subtitle="Clear plans for every learner.">
+    <Section id="pricing" title="Pricing" subtitle="Simple, transparent plans—choose what fits you best.">
       <div className="grid-3">
         {tiers.map(t=>(
           <Card key={t.name}>
@@ -312,10 +315,10 @@ function Contact() {
 
   const validate = () => {
     const e = {};
-    if (!form.name.trim()) e.name = 'Please enter your name.';
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = 'Enter a valid email.';
-    if (!/^[0-9+\-\s]{7,}$/.test(form.phone)) e.phone = 'Enter a valid phone.';
-    if (form.message.trim().length < 10) e.message = 'Message should be at least 10 characters.';
+    if (!form.name.trim()) e.name = 'Please enter your full name.';
+    if (!/\S+@\S+\.\S+$/.test(form.email)) e.email = 'Enter a valid email address.';
+    if (!/^[0-9+\-\s]{7,}$/.test(form.phone)) e.phone = 'Enter a valid phone number.';
+    if (form.message.trim().length < 10) e.message = 'Please include a few details (10+ characters).';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -323,7 +326,7 @@ function Contact() {
   const onSubmit = (ev) => {
     ev.preventDefault();
     if (validate()) {
-      setSuccess('Thank you! Your message has been received. We will contact you soon.');
+      setSuccess('Thank you—your enquiry has been received. We’ll be in touch shortly.');
       setForm({ name:'', email:'', phone:'', message:'' });
       setErrors({});
     } else {
@@ -332,32 +335,32 @@ function Contact() {
   };
 
   return (
-    <Section id="contact" title="Contact Us" subtitle="Book a lesson or ask a question.">
+    <Section id="contact" title="Contact Us" subtitle="Have a question or ready to start? We’re here to help.">
       <div className="grid-3">
         <Card className="">
           <form onSubmit={onSubmit} noValidate aria-describedby="contact-help">
             <p id="contact-help" className="section-subtitle">All fields are required.</p>
             <div className="field">
               <label htmlFor="name">Name</label>
-              <input id="name" name="name" type="text" value={form.name}
+              <input id="name" name="name" type="text" placeholder="e.g., Anika Perera" value={form.name}
                      onChange={(e)=>setForm({...form, name:e.target.value})} required aria-invalid={!!errors.name}/>
               {errors.name && <span className="field-error">{errors.name}</span>}
             </div>
             <div className="field">
               <label htmlFor="email">Email</label>
-              <input id="email" name="email" type="email" value={form.email}
+              <input id="email" name="email" type="email" placeholder="you@example.com" value={form.email}
                      onChange={(e)=>setForm({...form, email:e.target.value})} required aria-invalid={!!errors.email}/>
               {errors.email && <span className="field-error">{errors.email}</span>}
             </div>
             <div className="field">
               <label htmlFor="phone">Phone</label>
-              <input id="phone" name="phone" type="tel" value={form.phone}
+              <input id="phone" name="phone" type="tel" placeholder="+94 ..." value={form.phone}
                      onChange={(e)=>setForm({...form, phone:e.target.value})} required aria-invalid={!!errors.phone}/>
               {errors.phone && <span className="field-error">{errors.phone}</span>}
             </div>
             <div className="field">
               <label htmlFor="message">Message</label>
-              <textarea id="message" name="message" rows="4" value={form.message}
+              <textarea id="message" name="message" rows="4" placeholder="I’d like to book a mock test next week..." value={form.message}
                         onChange={(e)=>setForm({...form, message:e.target.value})} required aria-invalid={!!errors.message}/>
               {errors.message && <span className="field-error">{errors.message}</span>}
             </div>
@@ -372,17 +375,17 @@ function Contact() {
           <p><strong>Address:</strong> 123 Main Street, Colombo, Sri Lanka</p>
           <p><strong>Hours:</strong> Mon–Sat 8:00–18:00</p>
           <div style={{display:'flex', gap:10, marginTop:8}}>
-            <a className="btn btn-secondary" href="#hero">Facebook</a>
-            <a className="btn btn-secondary" href="#hero">Instagram</a>
+            <a className="btn btn-secondary" href="#hero" aria-label="Visit our Facebook page">Facebook</a>
+            <a className="btn btn-secondary" href="#hero" aria-label="Visit our Instagram profile">Instagram</a>
           </div>
         </Card>
         <Card>
           <h3>Why Choose Us</h3>
           <ul>
-            <li>Friendly, patient instructors</li>
-            <li>Flexible times to fit you</li>
-            <li>Modern cars with safety features</li>
-            <li>Great pass rates</li>
+            <li>Certified, patient instructors</li>
+            <li>High first‑time pass rates</li>
+            <li>Modern cars with advanced safety</li>
+            <li>Flexible times and easy booking</li>
           </ul>
         </Card>
       </div>
@@ -399,7 +402,7 @@ function Footer() {
             <img src={logo} alt="" aria-hidden="true" />
             <strong>Damsara Driving School</strong>
           </div>
-          <p className="section-subtitle">Helping learners become confident, safe drivers.</p>
+          <p className="section-subtitle">Premium instruction for safe, confident drivers.</p>
           <small>© {new Date().getFullYear()} Damsara Driving School. All rights reserved.</small>
         </div>
         <div>
@@ -437,7 +440,7 @@ function App() {
     localStorage.setItem('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
     document.body.style.background = getComputedStyle(document.documentElement).getPropertyValue('--color-bg');
-    document.title = 'Damsara Driving School | Learn to Drive with Confidence';
+    document.title = 'Damsara Driving School | Master the Road with Confidence';
   }, [theme]);
 
   useEffect(() => {
