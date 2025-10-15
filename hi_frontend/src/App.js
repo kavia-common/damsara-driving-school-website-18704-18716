@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
 import './App.css';
 import logo from './assets/images/logo.svg';
@@ -60,8 +60,6 @@ function Navbar({ onNav }) {
     { href: '#about', label: 'About' },
     { href: '#services', label: 'Services' },
     { href: '#instructors', label: 'Instructors' },
-    { href: '#gallery', label: 'Gallery' },
-    { href: '#testimonials', label: 'Testimonials' },
     { href: '#pricing', label: 'Pricing' },
     { href: '#contact', label: 'Contact' },
   ];
@@ -240,46 +238,6 @@ function Instructors() {
   );
 }
 
-function Gallery() {
-  const images = [img1,img2,img3,img4,img1,img2];
-  return (
-    <Section id="gallery" title="Gallery" subtitle="Training moments, pristine vehicles, and happy graduates.">
-      <div className="grid-3">
-        {images.map((src, idx)=>(
-          <Card key={idx} className="card-media">
-            <img src={src} alt={`Gallery item ${idx+1}`} loading="lazy" style={{borderRadius:'12px'}}/>
-          </Card>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
-function Testimonials() {
-  const [index, setIndex] = useState(0);
-  const testimonials = useMemo(()=>[
-    { name: 'D. Perera', text: 'I passed on my first attempt. Calm, clear feedback every lesson—highly recommended.' },
-    { name: 'R. Silva', text: 'Flexible times and a modern car made learning stress‑free. I felt confident on test day.' },
-    { name: 'S. Fernando', text: 'Professional, patient, and safety‑focused. Exactly what I needed to finally start driving.' },
-  ],[]);
-  const next = () => setIndex((i)=> (i+1) % testimonials.length);
-  const prev = () => setIndex((i)=> (i-1+testimonials.length) % testimonials.length);
-
-  return (
-    <Section id="testimonials" title="Testimonials" subtitle="Real stories from recent learners.">
-      <div aria-live="polite" aria-atomic="true">
-        <div className="testimonial">
-          <p style={{fontSize:18, marginTop:0}}>&ldquo;{testimonials[index].text}&rdquo;</p>
-          <p className="section-subtitle" style={{marginBottom:0}}>— {testimonials[index].name}</p>
-        </div>
-        <div style={{display:'flex', gap:12, justifyContent:'center', marginTop:16}}>
-          <button className="btn btn-secondary" onClick={prev} aria-label="Previous testimonial">Prev</button>
-          <button className="btn btn-secondary" onClick={next} aria-label="Next testimonial">Next</button>
-        </div>
-      </div>
-    </Section>
-  );
-}
 
 function Pricing() {
   const tiers = [
@@ -473,8 +431,6 @@ function App() {
         <About />
         <Services />
         <Instructors />
-        <Gallery />
-        <Testimonials />
         <Pricing />
         <Contact />
       </main>
