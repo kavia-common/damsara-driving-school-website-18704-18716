@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import './index.css';
 import './App.css';
 import logo from './assets/images/logo.svg';
-import img1 from './assets/images/placeholder1.jpg';
-import img2 from './assets/images/placeholder2.jpg';
-import img3 from './assets/images/placeholder3.jpg';
-import img4 from './assets/images/placeholder4.jpg';
 
 // Utilities
 const usePrefersDark = () => {
@@ -161,12 +157,9 @@ function Hero() {
             </div>
           </div>
           <div className="hero-media">
-            <img src="/assets/photo1.jpg" alt="Damsara driving school training session" className="tall" loading="lazy" />
-            <img src={img1} alt="Modern driving instruction vehicle" className="wide" loading="lazy" />
-            <img src="/assets/photo2.jpg" alt="Damsara driving school facility" className="wide" loading="lazy" />
+            <img src="/assets/photo1.jpg" alt="Damsara driving school training session" loading="lazy" />
+            <img src="/assets/photo2.jpg" alt="Damsara driving school facility" loading="lazy" />
             <img src="/assets/photo3.jpg" alt="Professional driving instructor with student" loading="lazy" />
-            <img src={img2} alt="Safe driving practice session" loading="lazy" />
-            <img src={img3} alt="Certified instructor guidance" loading="lazy" />
           </div>
         </div>
       </div>
@@ -221,9 +214,9 @@ function Services() {
 
 function Instructors() {
   const instructors = [
-    { name: 'Nimal Perera', role: 'Senior Instructor', img: img2 },
-    { name: 'Sajini Fernando', role: 'Instructor', img: img3 },
-    { name: 'Kasun Jay', role: 'Instructor', img: img4 },
+    { name: 'Nimal Perera', role: 'Senior Instructor', img: '/assets/photo1.jpg' },
+    { name: 'Sajini Fernando', role: 'Instructor', img: '/assets/photo2.jpg' },
+    { name: 'Kasun Jay', role: 'Instructor', img: '/assets/photo3.jpg' },
   ];
   return (
     <Section id="instructors" title="Our Instructors" subtitle="Certified, friendly, and dedicated to your success.">
