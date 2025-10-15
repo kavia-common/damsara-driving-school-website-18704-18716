@@ -214,9 +214,9 @@ function Services() {
 
 function Instructors() {
   const instructors = [
-    { name: 'Nimal Perera', role: 'Senior Instructor', img: '/assets/photo1.jpg' },
-    { name: 'Sajini Fernando', role: 'Instructor', img: '/assets/photo2.jpg' },
-    { name: 'Kasun Jay', role: 'Instructor', img: '/assets/photo3.jpg' },
+    { name: 'Nimal Perera', role: 'Senior Instructor', img: 'https://via.placeholder.com/400x400/c3373e/ffffff?text=Instructor' },
+    { name: 'Sajini Fernando', role: 'Instructor', img: 'https://via.placeholder.com/400x400/c3373e/ffffff?text=Instructor' },
+    { name: 'Kasun Jay', role: 'Instructor', img: 'https://via.placeholder.com/400x400/c3373e/ffffff?text=Instructor' },
   ];
   return (
     <Section id="instructors" title="Our Instructors" subtitle="Certified, friendly, and dedicated to your success.">

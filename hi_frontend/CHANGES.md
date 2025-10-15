@@ -1,7 +1,7 @@
-# Changes Made - Remove Placeholder Images
+# Changes Made - Remove Homepage Photos from Instructors Section
 
 ## Summary
-Updated the hero/homepage media grid to render exactly the three uploaded photos with no extra placeholder items.
+Updated the Instructors section to use placeholder images instead of the homepage photos. The homepage photos (photo1.jpg, photo2.jpg, photo3.jpg) are now only used in the Hero section as intended.
 
 ## Changes Implemented
 
@@ -106,6 +106,27 @@ Replaced the fixed 6-column grid with a responsive grid that adapts to variable 
 2. `src/index.css` - Updated hero-media grid to be responsive
 3. `public/assets/` - Added 3 uploaded photos
 4. `src/assets/images/` - Removed 4 placeholder images
+
+## Latest Change - Instructors Section Update (Current)
+
+### Changes Made
+- ✅ Updated Instructors component to use placeholder images instead of homepage photos
+- ✅ Removed references to `/assets/photo1.jpg`, `/assets/photo2.jpg`, `/assets/photo3.jpg` from Instructors section
+- ✅ Maintained all accessibility features (alt text, lazy loading)
+- ✅ Preserved layout and styling
+- ✅ Homepage photos now exclusively used in Hero section
+
+### Instructor Placeholders
+- All three instructors now use: `https://via.placeholder.com/400x400/c3373e/ffffff?text=Instructor`
+- Placeholder uses Damsara primary color (#c3373e) for brand consistency
+- Alt text remains descriptive: "[Instructor Name], [Role]"
+
+### Verification
+- ✅ Build completes successfully
+- ✅ No broken image references
+- ✅ Homepage photos only appear in Hero section (lines 160-162 of App.js)
+- ✅ Instructors section displays properly with placeholders
+- ✅ No console errors
 
 ## Status
 ✅ **Complete** - All requirements met, build successful, no broken references
