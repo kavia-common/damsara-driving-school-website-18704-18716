@@ -6,9 +6,6 @@ import img1 from './assets/images/placeholder1.jpg';
 import img2 from './assets/images/placeholder2.jpg';
 import img3 from './assets/images/placeholder3.jpg';
 import img4 from './assets/images/placeholder4.jpg';
-import photo1 from './assets/images/photo1.jpg';
-import photo2 from './assets/images/photo2.jpg';
-import photo3 from './assets/images/photo3.jpg';
 
 // Utilities
 const usePrefersDark = () => {
@@ -63,7 +60,6 @@ function Navbar({ onNav }) {
     { href: '#about', label: 'About' },
     { href: '#services', label: 'Services' },
     { href: '#instructors', label: 'Instructors' },
-    { href: '#photos', label: 'Photos' },
     { href: '#pricing', label: 'Pricing' },
     { href: '#contact', label: 'Contact' },
   ];
@@ -164,11 +160,13 @@ function Hero() {
               <a className="btn btn-secondary" href="tel:+94112223344" aria-label="Call now">📞 Call Now</a>
             </div>
           </div>
-          <div className="hero-media" aria-hidden="true">
-            <img src={img1} alt="" className="tall" loading="lazy" />
-            <img src={img2} alt="" className="wide" loading="lazy" />
-            <img src={img3} alt="" className="wide" loading="lazy" />
-            <img src={img4} alt="" loading="lazy" />
+          <div className="hero-media">
+            <img src="/assets/photo1.jpg" alt="Damsara driving school training session" className="tall" loading="lazy" />
+            <img src={img1} alt="Modern driving instruction vehicle" className="wide" loading="lazy" />
+            <img src="/assets/photo2.jpg" alt="Damsara driving school facility" className="wide" loading="lazy" />
+            <img src="/assets/photo3.jpg" alt="Professional driving instructor with student" loading="lazy" />
+            <img src={img2} alt="Safe driving practice session" loading="lazy" />
+            <img src={img3} alt="Certified instructor guidance" loading="lazy" />
           </div>
         </div>
       </div>
@@ -243,26 +241,7 @@ function Instructors() {
 }
 
 
-// PUBLIC_INTERFACE
-function Photos() {
-  /** Photos section displaying user-provided images in an elegant grid */
-  const photos = [
-    { src: photo1, alt: 'Damsara Driving School photo 1' },
-    { src: photo2, alt: 'Damsara Driving School photo 2' },
-    { src: photo3, alt: 'Damsara Driving School photo 3' },
-  ];
-  return (
-    <Section id="photos" title="Photos" subtitle="Capturing moments from our driving school community.">
-      <div className="photos-grid">
-        {photos.map((photo, idx) => (
-          <div key={idx} className="photo-item">
-            <img src={photo.src} alt={photo.alt} loading="lazy" />
-          </div>
-        ))}
-      </div>
-    </Section>
-  );
-}
+
 
 function Pricing() {
   const tiers = [
@@ -456,7 +435,6 @@ function App() {
         <About />
         <Services />
         <Instructors />
-        <Photos />
         <Pricing />
         <Contact />
       </main>
