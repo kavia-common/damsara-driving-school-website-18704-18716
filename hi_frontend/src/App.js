@@ -6,6 +6,9 @@ import img1 from './assets/images/placeholder1.jpg';
 import img2 from './assets/images/placeholder2.jpg';
 import img3 from './assets/images/placeholder3.jpg';
 import img4 from './assets/images/placeholder4.jpg';
+import photo1 from './assets/images/photo1.jpg';
+import photo2 from './assets/images/photo2.jpg';
+import photo3 from './assets/images/photo3.jpg';
 
 // Utilities
 const usePrefersDark = () => {
@@ -60,6 +63,7 @@ function Navbar({ onNav }) {
     { href: '#about', label: 'About' },
     { href: '#services', label: 'Services' },
     { href: '#instructors', label: 'Instructors' },
+    { href: '#photos', label: 'Photos' },
     { href: '#pricing', label: 'Pricing' },
     { href: '#contact', label: 'Contact' },
   ];
@@ -238,6 +242,27 @@ function Instructors() {
   );
 }
 
+
+// PUBLIC_INTERFACE
+function Photos() {
+  /** Photos section displaying user-provided images in an elegant grid */
+  const photos = [
+    { src: photo1, alt: 'Damsara Driving School photo 1' },
+    { src: photo2, alt: 'Damsara Driving School photo 2' },
+    { src: photo3, alt: 'Damsara Driving School photo 3' },
+  ];
+  return (
+    <Section id="photos" title="Photos" subtitle="Capturing moments from our driving school community.">
+      <div className="photos-grid">
+        {photos.map((photo, idx) => (
+          <div key={idx} className="photo-item">
+            <img src={photo.src} alt={photo.alt} loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
 
 function Pricing() {
   const tiers = [
@@ -431,6 +456,7 @@ function App() {
         <About />
         <Services />
         <Instructors />
+        <Photos />
         <Pricing />
         <Contact />
       </main>
